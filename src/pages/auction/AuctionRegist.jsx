@@ -33,7 +33,7 @@ const Regist = () =>{
           .post("http://localhost:8080/auction/auctions", body)
           .then(function (res) {
             alert("게시글 "+ aucPostId +"번이 등록되었습니다. 경매목록 화면으로 이동합니다.");
-            document.location.href = '/' ;
+            document.location.href = '/auction/auctions' ;
           })
           .catch(function (error) {
             // handle error

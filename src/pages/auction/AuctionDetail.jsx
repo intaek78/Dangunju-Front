@@ -121,7 +121,8 @@ const Detail = () =>{
         .post(beauction_url, body)
         .then(function (res) {
           //console.log("beAuction insert res=> "+JSON.stringify(res.data, null, 2));
-          document.location.href = '/';
+          window.location.reload();
+          //document.location.href = '/auction/auctions' ;
         })
         .catch(function (error) {
           // handle error
@@ -192,7 +193,7 @@ const Detail = () =>{
                   console.log(error);
                 })
             //window.location.reload();
-            document.location.href = '/'
+            document.location.href = '/auction/auctions' ;
         }
       };
 
@@ -205,15 +206,23 @@ const Detail = () =>{
           let body = {
               buyer: bid.bid_mem_id, //임시
               amount: bid.bid_amount,
-              postGubun: "AUC",
-              paymentGubun: "CANCEL",
+              postGubun: "AUTION",
+              paymentGubun: "CANCEL_PAYMENT",
               postId: bid.aucPostId,
               postTitle: aucTitle,
               aucId: fin_aucId,
               seller: "05625", //임시
           };
           console.log("결제 취소 body==>" + JSON.stringify(body, null, 2));
-          const payment_url = "http://localhost:8080/pament/requestPayment";     
+          axios
+              .post("http://localhost:8080/auction/push", body)
+              .then(function (res) {
+                console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
           /*
           axios
             .post(payment_url, body)
@@ -248,7 +257,7 @@ const Detail = () =>{
                   console.log(error);
                 })
             //window.location.reload();
-            document.location.href = '/'
+            document.location.href = '/auction/auctions' ;
         }
       };
 
@@ -301,7 +310,7 @@ const Detail = () =>{
                   console.log(error);
                 })
             //window.location.reload();
-            document.location.href = '/'
+            document.location.href = '/auction/auctions' ;
         }
       };
 
@@ -449,7 +458,7 @@ const Detail = () =>{
                       : <button class="btn btn-dark" onClick={submitHandler}>입찰하기(원)</button>   
                     } 
                     {
-                      aucProcGubun === "PE"
+                      aucProcGubun === "PAYMENT END"
                       ? <button class="btn btn-primary" onClick={completeHandler}>판매종료</button>   
                       : null
                     }      
