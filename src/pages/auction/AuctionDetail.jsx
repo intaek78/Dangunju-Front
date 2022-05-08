@@ -182,7 +182,6 @@ const Detail = () =>{
             })
             */
             console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
-            alert(111);
             axios
                 .post("http://localhost:8080/auction/aucpayments", body)
                 .then(function (res) {
@@ -250,7 +249,7 @@ const Detail = () =>{
             axios
                 .post("http://localhost:8080/auction/aucpayments", body)
                 .then(function (res) {
-                  console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
+                  console.log("결제취소 insert req=> "+JSON.stringify(res.data, null, 2));
                 })
                 .catch(function (error) {
                   // handle error
@@ -375,7 +374,7 @@ const Detail = () =>{
               <input type="text" class="form-control" disabled="true" placeholder="ex) 금액 1000원, 미개봉 등" value={aucContent} onChange={contentHandler}  aria-label="content" aria-describedby="basic-addon1"></input>
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">경매금액</span>
+              <span class="input-group-text" id="basic-addon1">경매시작금액</span>
               <input type="number" class="form-control" disabled="true" placeholder="ex) 15000" value={aucBidAmount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input>
             </div>
             </thead>

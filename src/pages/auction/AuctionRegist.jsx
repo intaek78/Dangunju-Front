@@ -39,6 +39,9 @@ const Regist = () =>{
             // handle error
             console.log(error);
           })
+
+         
+
       };
       
       const sellerIdHandler = (e) => {
