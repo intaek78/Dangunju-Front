@@ -9,7 +9,7 @@ import  Detail from './AuctionDetail';
 const AuctionList = () =>{ 
   
     const [auctionData, setAuctions] = useState([]);
-
+    
     useEffect(() => {
         axios
             .get("http://localhost:8080/auction/auctions")
@@ -56,7 +56,7 @@ const AuctionList = () =>{
       
  
         return ( 
-            <div class="card"> 
+            <div class="card">                 
                 <h2 class="card-title" align="center">경매목록</h2> 
                     <table class="table table-striped">
                         <thead>

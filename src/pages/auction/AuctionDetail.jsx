@@ -34,6 +34,9 @@ const Detail = () =>{
     const [bidAmount, setBidAmount] = useState([]);
     const [bidMem, setBidMem] = useState([]);
 
+    const [minutes, setMinutes] = useState(1);
+    const [seconds, setSeconds] = useState(0);
+
 
 
     useEffect(() => {
@@ -80,6 +83,7 @@ const Detail = () =>{
 
       //입찰
       const submitHandler = (e) => {
+        alert(minutes);
         e.preventDefault();
         let body = {
             aucPostId: aucPostId,
@@ -102,6 +106,23 @@ const Detail = () =>{
             console.log(error);
           })
           window.location.reload();
+
+          //경매 입찰 시 타이머 동작
+          const countdown = setInterval(() => {
+            if (parseInt(seconds) > 0) {
+              setSeconds(parseInt(seconds) - 1);
+            }
+            if (parseInt(seconds) === 0) {
+              if (parseInt(minutes) === 0) {
+                clearInterval(countdown);
+              } else {
+                setMinutes(parseInt(minutes) - 1);
+                setSeconds(59);
+              }
+            }
+          }, 1000);
+          return () => clearInterval(countdown);
+          //타이머 종료
           //document.location.href = '/'
       };
 
@@ -353,6 +374,16 @@ const Detail = () =>{
 
     return ( 
         <div class="card" > 
+        
+         <div className="card-title">
+            <h1>CountDown!</h1>
+            <div>
+                <h2>
+                {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                </h2>
+            </div>
+        </div>
+
           <form >
           <h2 class="card-title" align="center">경매상세 ({fin_status})</h2>
           <table class="table table-striped">
