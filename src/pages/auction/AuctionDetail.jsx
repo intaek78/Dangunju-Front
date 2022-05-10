@@ -34,8 +34,8 @@ const Detail = () =>{
     const [bidAmount, setBidAmount] = useState([]);
     const [bidMem, setBidMem] = useState([]);
 
-    const [minutes, setMinutes] = useState(1);
-    const [seconds, setSeconds] = useState(0);
+    const [aucStartDate, SetAucStartDate] = useState("");
+    const [aucEndDate, SetAucEndDate] = useState("");
 
 
 
@@ -50,6 +50,8 @@ const Detail = () =>{
                 SetContent(response.data.content);
                 SetBidAmount(response.data.auc_start_amount);
                 SetProcGubun(response.data.proc_GUBUN);
+                SetAucStartDate(response.data.aucStartDate);
+                SetAucEndDate(response.data.aucEndDate);
                 //console.log("===>"+response._links);
             });
     }, []);
@@ -78,12 +80,10 @@ const Detail = () =>{
                 console.log(error);
               })
           } 
-        
       };
 
       //입찰
       const submitHandler = (e) => {
-        alert(minutes);
         e.preventDefault();
         let body = {
             aucPostId: aucPostId,
@@ -92,6 +92,19 @@ const Detail = () =>{
             aucId: fin_aucId,
         };
         console.log("bid body bid_amount==>" + body.bid_amount);
+
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = ('0' + (today.getMonth() + 1)).slice(-2);
+        var day = ('0' + today.getDate()).slice(-2);
+
+        var dateString = year + "" + month  + "" + day;
+
+        if(dateString>aucEndDate) {
+          alert("경매가 종료되었습니다.");
+          return false;
+        }
+        //document.write(year + '/' + month + '/' + date)
 
         if(bidAmount==null || bidAmount=='') {return false;}
 
@@ -105,25 +118,8 @@ const Detail = () =>{
             // handle error
             console.log(error);
           })
-          window.location.reload();
-
-          //경매 입찰 시 타이머 동작
-          const countdown = setInterval(() => {
-            if (parseInt(seconds) > 0) {
-              setSeconds(parseInt(seconds) - 1);
-            }
-            if (parseInt(seconds) === 0) {
-              if (parseInt(minutes) === 0) {
-                clearInterval(countdown);
-              } else {
-                setMinutes(parseInt(minutes) - 1);
-                setSeconds(59);
-              }
-            }
-          }, 1000);
-          return () => clearInterval(countdown);
-          //타이머 종료
-          //document.location.href = '/'
+          //window.location.reload();        
+          document.location.href = '/auction/details'
       };
 
       //낙찰-낙찰장부 입력
@@ -370,20 +366,20 @@ const Detail = () =>{
         e.preventDefault();
         setBidMem(e.target.value);
       };
+
+      const aucStartDateHandler = (e) => {
+        e.preventDefault();
+        SetAucStartDate(e.target.value);
+      };
+
+      const aucEndDateHandler = (e) => {
+        e.preventDefault();
+        SetAucEndDate(e.target.value);
+      };
     
 
     return ( 
         <div class="card" > 
-        
-         <div className="card-title">
-            <h1>CountDown!</h1>
-            <div>
-                <h2>
-                {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                </h2>
-            </div>
-        </div>
-
           <form >
           <h2 class="card-title" align="center">경매상세 ({fin_status})</h2>
           <table class="table table-striped">
@@ -408,6 +404,14 @@ const Detail = () =>{
               <span class="input-group-text" id="basic-addon1">경매시작금액</span>
               <input type="number" class="form-control" disabled="true" placeholder="ex) 15000" value={aucBidAmount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input>
             </div>
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">경매시작일</span>
+            <input type="number" class="form-control" disabled="true"  placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">경매종료일</span>
+            <input type="number" class="form-control" disabled="true"  placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input>
+          </div>
             </thead>
           </table>
           <div align="center">

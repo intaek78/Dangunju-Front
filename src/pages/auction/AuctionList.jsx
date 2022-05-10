@@ -65,6 +65,8 @@ const AuctionList = () =>{
                             <th  scope="col">내용</th>
                             <th  scope="col">경매시작금액</th>
                             <th  scope="col">상태</th>
+                            <th  scope="col">경매시작일</th>
+                            <th  scope="col">경매종료일</th>
                             <th  scope="col">셀러ID</th>
                         </thead>
                         <tbody>
@@ -75,6 +77,8 @@ const AuctionList = () =>{
                                                       beAuctioned_YN_Auc: auc.beAuctioned_YN_Auc,
                                                       paymentReq_YN : auc.paymentReq_YN,
                                                       proc_GUBUN: auc.proc_GUBUN,
+                                                      aucStartDate: auc.aucStartDate,
+                                                      aucEndDate: auc.aucEndDate,
                                                       status: auc.status}}>{auc.aucPostId}</Link></td>                       
                                 <td scope="row">{auc.title}</td>
                                 <td scope="row">{auc.content}</td>
@@ -83,7 +87,8 @@ const AuctionList = () =>{
                                     ? <td scope="row">미입찰</td>
                                     : <td scope="row">{auc.status}</td>
                                 }
-                                
+                                <td scope="row">{auc.aucStartDate}</td>
+                                <td scope="row">{auc.aucEndDate}</td>
                                 
                                 <td scope="row">{auc.sellerId}</td>
                                 

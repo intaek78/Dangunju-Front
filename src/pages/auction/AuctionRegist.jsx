@@ -9,6 +9,8 @@ const Regist = () =>{
     const [aucTitle, SetTitle] = useState("");
     const [aucContent, SetContent] = useState("");
     const [auc_start_amount, SetBidAmount] = useState("");
+    const [aucStartDate, SetAucStartDate] = useState("");
+    const [aucEndDate, SetAucEndDate] = useState("");
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -20,6 +22,8 @@ const Regist = () =>{
         if(aucTitle==null || aucTitle=='') {alert("제목을 입력해주세요"); return false;}
         if(aucContent==null || aucContent=='') {alert("내용을 입력해주세요"); return false;}
         if(auc_start_amount==null || auc_start_amount=='') {alert("경매시작금액을 입력해주세요"); return false;}
+        if(aucStartDate==null || aucStartDate=='') {alert("경매시작일을 입력해주세요"); return false;}
+        if(aucEndDate==null || aucEndDate=='') {alert("경매종료일을 입력해주세요"); return false;}
     
         let body = {
             sellerId: aucSellerId,
@@ -27,6 +31,8 @@ const Regist = () =>{
             title: aucTitle,
             content: aucContent,
             auc_start_amount: auc_start_amount,
+            aucStartDate: aucStartDate,
+            aucEndDate: aucEndDate,
         };
     
         axios
@@ -68,6 +74,16 @@ const Regist = () =>{
         e.preventDefault();
         SetBidAmount(e.target.value);
       };
+
+      const aucStartDateHandler = (e) => {
+        e.preventDefault();
+        SetAucStartDate(e.target.value);
+      };
+
+      const aucEndDateHandler = (e) => {
+        e.preventDefault();
+        SetAucEndDate(e.target.value);
+      };
     
 
     return ( 
@@ -93,6 +109,14 @@ const Regist = () =>{
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">경매시작금액</span>
             <input type="number" class="form-control" placeholder="ex) 15000" value={auc_start_amount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">경매시작일</span>
+            <input type="number" class="form-control" placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">경매종료일</span>
+            <input type="number" class="form-control" placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input>
           </div>
           <div align="center"><button  class="btn btn-dark" onClick={submitHandler}>등록</button>   ||   <button  class="btn btn-dark"><Link to={'/auction/auctions'}>경매목록</Link></button>   </div>            
            </form>
