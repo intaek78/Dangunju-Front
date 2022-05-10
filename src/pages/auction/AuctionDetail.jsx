@@ -118,8 +118,8 @@ const Detail = () =>{
             // handle error
             console.log(error);
           })
-          //window.location.reload();        
-          document.location.href = '/auction/details'
+          window.location.reload();        
+          //document.location.href = '/auction/details'
       };
 
       //낙찰-낙찰장부 입력
