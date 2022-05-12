@@ -9,8 +9,8 @@ const Detail = () =>{
   console.log("==>>"+location.state.aucId2);
 
   const fin_aucId = location.state.aucId2;
-  const fin_beAuctioned_YN_Auc = location.state.beAuctioned_YN_Auc; 
-  const fin_paymentReq_YN = location.state.paymentReq_YN;  
+  const fin_beAuctionedYnAuc = location.state.beAuctionedYnAuc; 
+  const fin_paymentReqYN = location.state.paymentReqYN;  
   const fin_status = location.state.status;  
   const tmpVar = "Y";
   const fin_url = "http://localhost:8080/auction/auctions/" + fin_aucId;
@@ -48,8 +48,8 @@ const Detail = () =>{
                 SetPostId(response.data.aucPostId);
                 SetTitle(response.data.title);
                 SetContent(response.data.content);
-                SetBidAmount(response.data.auc_start_amount);
-                SetProcGubun(response.data.proc_GUBUN);
+                SetBidAmount(response.data.aucStartAmount);
+                SetProcGubun(response.data.procGUBUN);
                 SetAucStartDate(response.data.aucStartDate);
                 SetAucEndDate(response.data.aucEndDate);
                 //console.log("===>"+response._links);
@@ -87,11 +87,11 @@ const Detail = () =>{
         e.preventDefault();
         let body = {
             aucPostId: aucPostId,
-            bid_amount: bidAmount,
-            bid_mem_id: bidMem,
+            bidAmount: bidAmount,
+            bidMemId: bidMem,
             aucId: fin_aucId,
         };
-        console.log("bid body bid_amount==>" + body.bid_amount);
+        console.log("bid body bidAmount==>" + body.bidAmount);
 
         var today = new Date();
         var year = today.getFullYear();
@@ -150,11 +150,11 @@ const Detail = () =>{
       //결제요청
       const paymentHandler = (bid, e) => {
 
-        if (window.confirm("결제요청 하시겠습니까?\n 낙찰금액(원) : " + bid.bid_amount ))  {
+        if (window.confirm("결제요청 하시겠습니까?\n 낙찰금액(원) : " + bid.bidAmount ))  {
           e.preventDefault();
           let body = {
-              buyer: bid.bid_mem_id, //임시
-              amount: bid.bid_amount,
+              buyer: bid.bidMemId, //임시
+              amount: bid.bidAmount,
               postGubun: "AUTION",
               paymentGubun: "REQUEST_PAYMENT",
               postId: bid.aucPostId,
@@ -220,8 +220,8 @@ const Detail = () =>{
         if (window.confirm("결제취소 하시겠습니까?"))  {
           e.preventDefault();
           let body = {
-              buyer: bid.bid_mem_id, //임시
-              amount: bid.bid_amount,
+              buyer: bid.bidMemId, //임시
+              amount: bid.bidAmount,
               postGubun: "AUTION",
               paymentGubun: "CANCEL_PAYMENT",
               postId: bid.aucPostId,
@@ -416,7 +416,7 @@ const Detail = () =>{
           </table>
           <div align="center">
             {
-              fin_beAuctioned_YN_Auc === "Y"
+              fin_beAuctionedYnAuc === "Y"
               ? null
               : <button class="btn btn-dark" onClick={AuctionCancelled}>판매취소</button>
             }
@@ -444,18 +444,18 @@ const Detail = () =>{
                                 }
                                 {
                                   bid.aucId === fin_aucId
-                                  ? <td scope="row">{bid.bid_mem_id}</td> 
+                                  ? <td scope="row">{bid.bidMemId}</td> 
                                   : null
                                 }
                                 {
                                   bid.aucId === fin_aucId
-                                  ? <td scope="row">{bid.bid_amount}</td> 
+                                  ? <td scope="row">{bid.bidAmount}</td> 
                                   : null
                                 }
                                 {
                                   bid.aucId === fin_aucId
-                                  ? ( bid.beAuctioned_YN === tmpVar                                        
-                                        ? ( fin_paymentReq_YN === tmpVar
+                                  ? ( bid.beAuctionedYN === tmpVar                                        
+                                        ? ( fin_paymentReqYN === tmpVar
                                             ? <td scope="row"><button class="btn btn-danger" onClick={(e)=>{payCancelHandler(bid, e)}}>결제취소</button></td>
                                             : 
                                               ( aucProcGubun === "E"
@@ -464,7 +464,7 @@ const Detail = () =>{
                                               )
                                               
                                           )                                        
-                                        : ( bid.beAuctioned_YN === fin_beAuctioned_YN_Auc
+                                        : ( bid.beAuctionedYN === fin_beAuctionedYnAuc
                                             ?<td scope="row"><button class="btn btn-danger" onClick={(e)=>{beAuctionedHandler(bid.bidId2, e)}}>낙찰</button></td>                                        
                                             :<td scope="row"></td>
                                         )
@@ -477,17 +477,17 @@ const Detail = () =>{
                     </table>
                     <div align="center">                   
                     {
-                      fin_beAuctioned_YN_Auc === "Y"
+                      fin_beAuctionedYnAuc === "Y"
                       ?null
                       : <input type="number" name="bid_mem" value={bidMem} onChange={bidMemHandler} placeholder="ex) 05625" />
                     }
                     {
-                      fin_beAuctioned_YN_Auc === "Y"
+                      fin_beAuctionedYnAuc === "Y"
                       ?null
                       : <input type="number" name="biddingAmount" value={bidAmount} onChange={bidHandler} placeholder="ex) 5000" />
                     }
                     {
-                      fin_beAuctioned_YN_Auc === "Y"
+                      fin_beAuctionedYnAuc === "Y"
                       ? null
                       : <button class="btn btn-dark" onClick={submitHandler}>입찰하기(원)</button>   
                     } 

@@ -74,15 +74,15 @@ const AuctionList = () =>{
                             <tr key={auc.auc_id}>
                                 <td scope="row"><Link to={'/auction/details'}
                                               state={{aucId2: auc.aucId2, 
-                                                      beAuctioned_YN_Auc: auc.beAuctioned_YN_Auc,
-                                                      paymentReq_YN : auc.paymentReq_YN,
-                                                      proc_GUBUN: auc.proc_GUBUN,
+                                                      beAuctionedYnAuc: auc.beAuctionedYnAuc,
+                                                      paymentReqYN : auc.paymentReqYN,
+                                                      procGUBUN: auc.procGUBUN,
                                                       aucStartDate: auc.aucStartDate,
                                                       aucEndDate: auc.aucEndDate,
                                                       status: auc.status}}>{auc.aucPostId}</Link></td>                       
                                 <td scope="row">{auc.title}</td>
                                 <td scope="row">{auc.content}</td>
-                                <td scope="row">{auc.auc_start_amount}</td>
+                                <td scope="row">{auc.aucStartAmount}</td>
                                 {auc.status === null
                                     ? <td scope="row">미입찰</td>
                                     : <td scope="row">{auc.status}</td>

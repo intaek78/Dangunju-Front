@@ -8,7 +8,7 @@ const Regist = () =>{
     const [aucPostId, SetPostId] = useState("");
     const [aucTitle, SetTitle] = useState("");
     const [aucContent, SetContent] = useState("");
-    const [auc_start_amount, SetBidAmount] = useState("");
+    const [aucStartAmount, SetBidAmount] = useState("");
     const [aucStartDate, SetAucStartDate] = useState("");
     const [aucEndDate, SetAucEndDate] = useState("");
 
@@ -21,7 +21,7 @@ const Regist = () =>{
         if(aucPostId==null || aucPostId=='') {alert("게시글번호를 입력해주세요"); return false;}
         if(aucTitle==null || aucTitle=='') {alert("제목을 입력해주세요"); return false;}
         if(aucContent==null || aucContent=='') {alert("내용을 입력해주세요"); return false;}
-        if(auc_start_amount==null || auc_start_amount=='') {alert("경매시작금액을 입력해주세요"); return false;}
+        if(aucStartAmount==null || aucStartAmount=='') {alert("경매시작금액을 입력해주세요"); return false;}
         if(aucStartDate==null || aucStartDate=='') {alert("경매시작일을 입력해주세요"); return false;}
         if(aucEndDate==null || aucEndDate=='') {alert("경매종료일을 입력해주세요"); return false;}
     
@@ -30,7 +30,7 @@ const Regist = () =>{
             aucPostId: aucPostId,
             title: aucTitle,
             content: aucContent,
-            auc_start_amount: auc_start_amount,
+            aucStartAmount: aucStartAmount,
             aucStartDate: aucStartDate,
             aucEndDate: aucEndDate,
         };
@@ -108,7 +108,7 @@ const Regist = () =>{
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">경매시작금액</span>
-            <input type="number" class="form-control" placeholder="ex) 15000" value={auc_start_amount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input>
+            <input type="number" class="form-control" placeholder="ex) 15000" value={aucStartAmount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input>
           </div>
           <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">경매시작일</span>
