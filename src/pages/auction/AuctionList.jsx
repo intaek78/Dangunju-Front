@@ -56,10 +56,11 @@ const AuctionList = () =>{
       
  
         return ( 
-            <div class="card">                 
-                <h2 class="card-title" align="center">경매목록</h2> 
-                    <table class="table table-striped">
-                        <thead>
+            <div class="container">     
+            <br></br>            
+                <h4 class="card-title" align="center">경매목록</h4> 
+                    <table class="table table-hover">
+                        <thead align="center" class="table-active">
                             <th  scope="col">게시물번호</th>
                             <th  scope="col">제목</th>
                             <th  scope="col">내용</th>
@@ -69,7 +70,7 @@ const AuctionList = () =>{
                             <th  scope="col">경매종료일</th>
                             <th  scope="col">셀러ID</th>
                         </thead>
-                        <tbody>
+                        <tbody align="center">
                             {auctionData._embedded && auctionData._embedded.auctions.map((auc) => (                            
                             <tr key={auc.auc_id}>
                                 <td scope="row"><Link to={'/auction/details'}
@@ -96,7 +97,10 @@ const AuctionList = () =>{
                         </tbody>
                           
                     </table>
-                    <button class="btn btn-dark"><Link to={'/auction/regists'}>신규등록</Link></button>
+                    <div align="center">
+                        <button class="btn btn-outline-primary"><Link to={'/auction/regists'}>신규등록</Link></button>
+                    </div>
+                    
             
             </div>
 

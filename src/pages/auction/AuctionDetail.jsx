@@ -379,62 +379,57 @@ const Detail = () =>{
     
 
     return ( 
-        <div class="card" > 
+        <div class="container" > 
           <form >
-          <h2 class="card-title" align="center">경매상세 ({fin_status})</h2>
-          <table class="table table-striped">
-            <thead>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">Seller ID</span>
-              <input type="number" class="form-control" disabled="true" placeholder="ex) 1111" value={aucSellerId} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input>
+          <p></p>
+          <h4 class="card-title">경매상세 ({fin_status})</h4>
+            <div class="form-group">
+              <div class="col-sm-5"><input type="hidden" id="sellerid" class="form-control" disabled="true" placeholder="ex) 1111" value={aucSellerId} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input></div>
             </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">글번호</span>
-              <input type="number" class="form-control" disabled="true" placeholder="ex) 1111" value={aucPostId} onChange={postIdHandler}  aria-label="postID" aria-describedby="basic-addon1"></input>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" >글번호</label>
+              <div class="col-sm-5"><input type="number" class="form-control" disabled="true" placeholder="ex) 1111" value={aucPostId} onChange={postIdHandler}  aria-label="postID" aria-describedby="basic-addon1"></input></div>
             </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">제목</span>
-              <input type="text" class="form-control" disabled="true" placeholder="ex) 레고 43212 경매등록" value={aucTitle} onChange={titleHandler}  aria-label="title" aria-describedby="basic-addon1"></input>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" >제목</label>
+              <div class="col-sm-5"><input type="text" class="form-control" disabled="true" placeholder="ex) 레고 43212 경매등록" value={aucTitle} onChange={titleHandler}  aria-label="title" aria-describedby="basic-addon1"></input></div>
             </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">내용</span>
-              <input type="text" class="form-control" disabled="true" placeholder="ex) 금액 1000원, 미개봉 등" value={aucContent} onChange={contentHandler}  aria-label="content" aria-describedby="basic-addon1"></input>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" >내용</label>
+              <div class="col-sm-5"><input type="text" class="form-control" disabled="true" placeholder="ex) 금액 1000원, 미개봉 등" value={aucContent} onChange={contentHandler}  aria-label="content" aria-describedby="basic-addon1"></input></div>
             </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">경매시작금액</span>
-              <input type="number" class="form-control" disabled="true" placeholder="ex) 15000" value={aucBidAmount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input>
+            <div class="form-group">
+              <label class="col-sm-3 control-label" >경매시작금액</label>
+              <div class="col-sm-5"><input type="number" class="form-control" disabled="true" placeholder="ex) 15000" value={aucBidAmount} onChange={bidAmountHandler}  aria-label="bidStartAmount" aria-describedby="basic-addon1"></input></div>
             </div>
-            <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">경매시작일</span>
-            <input type="number" class="form-control" disabled="true"  placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input>
+            <div class="form-group">
+            <label class="col-sm-3 control-label" >경매시작일</label>
+            <div class="col-sm-5"><input type="number" class="form-control" disabled="true"  placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input></div>
           </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">경매종료일</span>
-            <input type="number" class="form-control" disabled="true"  placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input>
+          <div class="form-group">
+            <label class="col-sm-3 control-label" >경매종료일</label>
+            <div class="col-sm-5"><input type="number" class="form-control" disabled="true"  placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input></div>
           </div>
-            </thead>
-          </table>
-          <div align="center">
+          <p></p>
+          <div>
             {
               fin_beAuctionedYnAuc === "Y"
               ? null
-              : <button class="btn btn-dark" onClick={AuctionCancelled}>판매취소</button>
+              : <button class="btn btn-outline-primary" onClick={AuctionCancelled}>판매취소</button>
             }
-            <button class="btn btn-dark"><Link to={'/auction/auctions'}>경매목록</Link></button>
+            <button class="btn btn-outline-primary"><Link to={'/auction/auctions'}>경매목록</Link></button>
           </div>        
            </form >
-              <br/>
-              <br/>
               <form onSubmit={submitHandler}>
-                <h2  class="card-title" align="center">입찰목록</h2> 
-                    <table  class="table table-striped">
-                        <thead>
+                <h4  class="card-title" align="center" >입찰목록</h4> 
+                    <table  class="table table-hover">
+                        <thead align="center" class="table-active">
                             <th scope="col">게시글번호</th>
                             <th scope="col">입찰자ID</th>
                             <th scope="col">입찰금액</th>
                             <th scope="col">상태</th>
                         </thead>
-                        <tbody>
+                        <tbody align="center">
                             {bidData._embedded && bidData._embedded.bids.map((bid) => (                            
                             <tr key={bid.bidId}>
                                 {
@@ -489,11 +484,11 @@ const Detail = () =>{
                     {
                       fin_beAuctionedYnAuc === "Y"
                       ? null
-                      : <button class="btn btn-dark" onClick={submitHandler}>입찰하기(원)</button>   
+                      : <button class="btn btn-outline-primary" onClick={submitHandler}>입찰하기(원)</button>   
                     } 
                     {
                       aucProcGubun === "PAYMENT END"
-                      ? <button class="btn btn-primary" onClick={completeHandler}>판매종료</button>   
+                      ? <button class="btn btn-danger" onClick={completeHandler}>판매종료</button>   
                       : null
                     }      
                     </div>                   
