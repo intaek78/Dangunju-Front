@@ -24,6 +24,16 @@ const Regist = () =>{
         if(aucStartAmount==null || aucStartAmount=='') {alert("경매시작금액을 입력해주세요"); return false;}
         if(aucStartDate==null || aucStartDate=='') {alert("경매시작일을 입력해주세요"); return false;}
         if(aucEndDate==null || aucEndDate=='') {alert("경매종료일을 입력해주세요"); return false;}
+
+        var today = new Date();
+          var year = today.getFullYear();
+          var month = ('0' + (today.getMonth() + 1)).slice(-2);
+          var day = ('0' + today.getDate()).slice(-2);
+          var hour = today.getHours();
+          var min = today.getMinutes();
+          var sec = today.getSeconds();
+  
+          var dateCrt = year + "" + month  + "" + day + "" + hour + "" + min + "" + sec ;
     
         let body = {
             sellerId: aucSellerId,
@@ -33,6 +43,8 @@ const Regist = () =>{
             aucStartAmount: aucStartAmount,
             aucStartDate: aucStartDate,
             aucEndDate: aucEndDate,
+            aucCrtDate: dateCrt,   //CQRS
+            aucStatus: "Auction Insert",   //CQRS
         };
     
         axios
@@ -40,6 +52,18 @@ const Regist = () =>{
           .then(function (res) {
             alert("게시글 "+ aucPostId +"번이 등록되었습니다. 경매목록 화면으로 이동합니다.");
             document.location.href = '/auction/auctions' ;
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+
+          
+
+        axios
+          .post("http://localhost:8080/auction/pushhistory", body)
+          .then(function (res) {
+            console.log("내활동(CQRS) req=> "+JSON.stringify(res.data, null, 2));
           })
           .catch(function (error) {
             // handle error
