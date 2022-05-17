@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { render } from 'react-dom';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import  Detail from './AuctionDetail';
+import "./bootstrap/bootstrap.min.css";
 
 
 const AuctionList = () =>{ 

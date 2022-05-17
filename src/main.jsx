@@ -6,7 +6,7 @@ import "./index.css";
 import AuctionList from './pages/auction/AuctionList';
 import Regist from './pages/auction/AuctionRegist';
 import Detail from './pages/auction/AuctionDetail';
-import "bootstrap/dist/css/bootstrap.min.css";
+
 /*
 예시 입니다. 이런식으로 가져다와서 쓰시죠.
 import Acthistory from './components/acthistory.ks'

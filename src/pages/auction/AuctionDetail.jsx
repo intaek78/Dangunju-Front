@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useHistory } from 'react'; 
 import { Route, Link, useLocation, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
+import "./bootstrap/bootstrap.min.css";
 
 const Detail = () =>{ 
   const location = useLocation();
@@ -203,11 +204,13 @@ const Detail = () =>{
                 .post("http://localhost:8080/auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
+                  alert("결과 : "+res.data.state.status);
                 })
                 .catch(function (error) {
                   // handle error
                   console.log(error);
                 })
+            
             //window.location.reload();
             document.location.href = '/auction/auctions' ;
         }

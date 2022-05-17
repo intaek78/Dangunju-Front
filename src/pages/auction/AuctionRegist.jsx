@@ -1,6 +1,7 @@
 import React, {useState} from 'react'; 
 import { Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import "./bootstrap/bootstrap.min.css";
 
 const Regist = () =>{ 
 
