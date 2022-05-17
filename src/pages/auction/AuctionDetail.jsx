@@ -328,6 +328,40 @@ const Detail = () =>{
                   // handle error
                   console.log(error);
                 })
+
+              //CQRS연동
+              var today = new Date();
+              var year = today.getFullYear();
+              var month = ('0' + (today.getMonth() + 1)).slice(-2);
+              var day = ('0' + today.getDate()).slice(-2);
+              var hour = today.getHours();
+              var min = today.getMinutes();
+              var sec = today.getSeconds();      
+              var dateCrt = year + "" + month  + "" + day + "" + hour + "" + min + "" + sec ;
+
+              alert("iiiii");
+              let body3 = {
+                  sellerId: aucSellerId,
+                  aucPostId: aucPostId,
+                  title: aucTitle,
+                  content: aucContent,
+                  aucStartAmount: aucStartAmount,
+                  aucStartDate: aucStartDate,
+                  aucEndDate: aucEndDate,
+                  aucCrtDate: dateCrt,   //CQRS
+                  aucStatus: "Auction End",   //CQRS
+              };
+
+            axios
+                .post("http://localhost:8080/auction/pushhistory", body3)
+                .then(function (res) {
+                  console.log("판매취소 내활동(CQRS) req=> "+JSON.stringify(res.data, null, 2));
+                })
+                .catch(function (error) {
+                  // handle error
+                  console.log(error);
+                })
+
             //window.location.reload();
             document.location.href = '/auction/auctions' ;
         }
