@@ -338,17 +338,15 @@ const Detail = () =>{
               var min = today.getMinutes();
               var sec = today.getSeconds();      
               var dateCrt = year + "" + month  + "" + day + "" + hour + "" + min + "" + sec ;
-
-              alert("iiiii");
+              
               let body3 = {
                   sellerId: aucSellerId,
                   aucPostId: aucPostId,
                   title: aucTitle,
                   content: aucContent,
-                  aucStartAmount: aucStartAmount,
                   aucStartDate: aucStartDate,
                   aucEndDate: aucEndDate,
-                  aucCrtDate: dateCrt,   //CQRS
+                  aucSaleEnd: dateCrt,   //CQRS
                   aucStatus: "Auction End",   //CQRS
               };
 
