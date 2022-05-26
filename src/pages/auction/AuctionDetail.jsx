@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useHistory } from 'react'; 
 import { Route, Link, useLocation, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
+import "./bootstrap/bootstrap.min.css";
 
 const Detail = () =>{ 
   const location = useLocation();
@@ -203,11 +204,13 @@ const Detail = () =>{
                 .post("http://localhost:8081/auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
+                  alert("결과 : "+res.data.state.status);
                 })
                 .catch(function (error) {
                   // handle error
                   console.log(error);
                 })
+            
             //window.location.reload();
             document.location.href = '/auction/auctions' ;
         }
@@ -341,10 +344,13 @@ const Detail = () =>{
                   aucPostId: aucPostId,
                   title: aucTitle,
                   content: aucContent,
+<<<<<<< HEAD
                   aucBidAmount: aucBidAmount,
+=======
+>>>>>>> c497dcf402bd18e6078bbf6899d2cb07bb4df5a8
                   aucStartDate: aucStartDate,
                   aucEndDate: aucEndDate,
-                  aucCrtDate: dateCrt,   //CQRS
+                  aucSaleEnd: dateCrt,   //CQRS
                   aucStatus: "Auction End",   //CQRS
               };
 
