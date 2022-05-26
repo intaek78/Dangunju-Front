@@ -25,7 +25,7 @@ const Regist = () =>{
         if(aucStartDate==null || aucStartDate=='') {alert("경매시작일을 입력해주세요"); return false;}
         if(aucEndDate==null || aucEndDate=='') {alert("경매종료일을 입력해주세요"); return false;}
 
-        var today = new Date();
+          var today = new Date();
           var year = today.getFullYear();
           var month = ('0' + (today.getMonth() + 1)).slice(-2);
           var day = ('0' + today.getDate()).slice(-2);
@@ -48,7 +48,7 @@ const Regist = () =>{
         };
     
         axios
-          .post("http://localhost:8080/auction/auctions", body)
+          .post("http://localhost:8081/auction/auctions", body)
           .then(function (res) {
             alert("게시글 "+ aucPostId +"번이 등록되었습니다. 경매목록 화면으로 이동합니다.");
             document.location.href = '/auction/auctions' ;
@@ -59,9 +59,9 @@ const Regist = () =>{
           })
 
           
-
+        /*임시삭제
         axios
-          .post("http://localhost:8080/auction/pushhistory", body)
+          .post("http://localhost:8081/auction/pushhistory", body)
           .then(function (res) {
             console.log("내활동(CQRS) req=> "+JSON.stringify(res.data, null, 2));
           })
@@ -69,6 +69,7 @@ const Regist = () =>{
             // handle error
             console.log(error);
           })
+          */
 
          
 

@@ -13,7 +13,7 @@ const Detail = () =>{
   const fin_paymentReqYN = location.state.paymentReqYN;  
   const fin_status = location.state.status;  
   const tmpVar = "Y";
-  const fin_url = "http://localhost:8080/auction/auctions/" + fin_aucId;
+  const fin_url = "http://localhost:8081/auction/auctions/" + fin_aucId;
   console.log("fin_url   "+fin_url);
   
 
@@ -58,7 +58,7 @@ const Detail = () =>{
 
     useEffect(() => {
       axios
-          .get("http://localhost:8080/auction/bids")
+          .get("http://localhost:8081/auction/bids")
           .then((response) => {
               setBids(response.data);
               //console.log("===>"+auctionData);
@@ -108,7 +108,7 @@ const Detail = () =>{
 
         if(bidAmount==null || bidAmount=='') {return false;}
 
-        const bid_url = "http://localhost:8080/auction/bids";     
+        const bid_url = "http://localhost:8081/auction/bids";     
         axios
           .post(bid_url, body)
           .then(function (res) {
@@ -132,7 +132,7 @@ const Detail = () =>{
           bidId: bidId2,
         };
 
-        const beauction_url = "http://localhost:8080/auction/beauctions";        
+        const beauction_url = "http://localhost:8081/auction/beauctions";        
     
         axios
         .post(beauction_url, body)
@@ -166,7 +166,7 @@ const Detail = () =>{
 
           console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
           axios
-              .post("http://localhost:8080/auction/push", body)
+              .post("http://localhost:8081/auction/push", body)
               .then(function (res) {
                 console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
               })
@@ -200,7 +200,7 @@ const Detail = () =>{
             */
             console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
             axios
-                .post("http://localhost:8080/auction/aucpayments", body)
+                .post("http://localhost:8081/auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
                 })
@@ -231,7 +231,7 @@ const Detail = () =>{
           };
           console.log("결제 취소 body==>" + JSON.stringify(body, null, 2));
           axios
-              .post("http://localhost:8080/auction/push", body)
+              .post("http://localhost:8081/auction/push", body)
               .then(function (res) {
                 console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
               })
@@ -264,7 +264,7 @@ const Detail = () =>{
             */
             console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
             axios
-                .post("http://localhost:8080/auction/aucpayments", body)
+                .post("http://localhost:8081/auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제취소 insert req=> "+JSON.stringify(res.data, null, 2));
                 })
@@ -292,7 +292,7 @@ const Detail = () =>{
               seller: "05625", //임시
           };
           console.log("판매종료 body==>" + JSON.stringify(body, null, 2));
-          const payment_url = "http://localhost:8080/pament/requestPayment";     
+          const payment_url = "http://localhost:8081/pament/requestPayment";     
           /*
           axios
             .post(payment_url, body)
@@ -317,7 +317,7 @@ const Detail = () =>{
             })
             */
             axios
-                .post("http://localhost:8080/auction/aucpayments", body)
+                .post("http://localhost:8081/auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
                 })
@@ -335,14 +335,13 @@ const Detail = () =>{
               var min = today.getMinutes();
               var sec = today.getSeconds();      
               var dateCrt = year + "" + month  + "" + day + "" + hour + "" + min + "" + sec ;
-
-              alert("iiiii");
+              
               let body3 = {
                   sellerId: aucSellerId,
                   aucPostId: aucPostId,
                   title: aucTitle,
                   content: aucContent,
-                  aucStartAmount: aucStartAmount,
+                  aucBidAmount: aucBidAmount,
                   aucStartDate: aucStartDate,
                   aucEndDate: aucEndDate,
                   aucCrtDate: dateCrt,   //CQRS
@@ -350,7 +349,7 @@ const Detail = () =>{
               };
 
             axios
-                .post("http://localhost:8080/auction/pushhistory", body3)
+                .post("http://localhost:8081/auction/pushhistory", body3)
                 .then(function (res) {
                   console.log("판매취소 내활동(CQRS) req=> "+JSON.stringify(res.data, null, 2));
                 })

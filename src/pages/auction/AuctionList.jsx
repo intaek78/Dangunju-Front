@@ -12,7 +12,7 @@ const AuctionList = () =>{
     
     useEffect(() => {
         axios
-            .get("http://localhost:8080/auction/auctions")
+            .get("http://localhost:8081/auction/auctions")
             .then((response) => {
                 setAuctions(response.data);
                 //console.log("===>"+auctionData);
