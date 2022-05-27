@@ -344,10 +344,7 @@ const Detail = () =>{
                   aucPostId: aucPostId,
                   title: aucTitle,
                   content: aucContent,
-<<<<<<< HEAD
                   aucBidAmount: aucBidAmount,
-=======
->>>>>>> c497dcf402bd18e6078bbf6899d2cb07bb4df5a8
                   aucStartDate: aucStartDate,
                   aucEndDate: aucEndDate,
                   aucSaleEnd: dateCrt,   //CQRS
