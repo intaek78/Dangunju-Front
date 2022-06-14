@@ -16,6 +16,9 @@ const Detail = () =>{
   const tmpVar = "Y";
   const fin_url = "http://localhost:8081/auction/auctions/" + fin_aucId;
   console.log("fin_url   "+fin_url);
+
+  const selectList = ["선택", 5, 4, 3, 2, 1];
+  
   
 
 
@@ -38,6 +41,9 @@ const Detail = () =>{
     const [aucStartDate, SetAucStartDate] = useState("");
     const [aucEndDate, SetAucEndDate] = useState("");
 
+    const [ratingScore, SetRatingScore] = useState("");
+    const [Selected, setSelected] = useState("");
+
 
 
     useEffect(() => {
@@ -53,6 +59,8 @@ const Detail = () =>{
                 SetProcGubun(response.data.procGUBUN);
                 SetAucStartDate(response.data.aucStartDate);
                 SetAucEndDate(response.data.aucEndDate);
+                SetRatingScore(response.data.ratingScore);
+
                 //console.log("===>"+response._links);
             });
     }, []);
@@ -367,6 +375,61 @@ const Detail = () =>{
       };
 
 
+      //평가요청
+      const ratingHandler = (bid, e) => {
+
+        if(Selected===''){
+          alert("점수를 선택해주세요");
+          return;
+        }
+
+        if (window.confirm("평가요청 하시겠습니까? " ))  {
+          e.preventDefault();
+          let body = {
+              userId: bid.bidMemId, //임시
+              postGubun: "AUCTION",
+              ratingScore: Selected,
+          };
+          console.log("평가 요청 body==>" + JSON.stringify(body, null, 2));
+          alert("123123123");
+          axios
+              .post("http://localhost:8081/auction/userpush", body)
+              .then(function (res) {
+                console.log("평가요청 insert req=> "+JSON.stringify(res.data, null, 2));
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
+
+
+            let body2 = {
+              buyer: bid.bidMemId, //임시
+              amount: bid.bidAmount,
+              paymentGubun: "RATE_COMPLETED",
+              postId: bid.aucPostId,
+              postTitle: aucTitle,
+              aucId: fin_aucId,
+              seller: aucSellerId, //임시
+            };
+          console.log("평가요청 insert res=> "+JSON.stringify(body2, null, 2));
+          alert("55556666");
+          axios
+              .post("http://localhost:8081/auction/aucpayments", body2)
+              .then(function (res) {
+                console.log("결제취소 insert req=> "+JSON.stringify(res.data, null, 2));
+              })
+              .catch(function (error) {
+                // handle error
+                console.log(error);
+              })
+          
+            //window.location.reload();
+            document.location.href = '/auction/auctions' ;
+        }
+      };
+
+
 
       const sellerIdHandler = (e) => {
         e.preventDefault();
@@ -411,6 +474,10 @@ const Detail = () =>{
       const aucEndDateHandler = (e) => {
         e.preventDefault();
         SetAucEndDate(e.target.value);
+      };
+
+      const handleSelect = (e) => {
+        setSelected(e.target.value);
       };
     
 
@@ -489,9 +556,23 @@ const Detail = () =>{
                                         ? ( fin_paymentReqYN === tmpVar
                                             ? <td scope="row"><button class="btn btn-danger" onClick={(e)=>{payCancelHandler(bid, e)}}>결제취소</button></td>
                                             : 
-                                              ( aucProcGubun === "E"
-                                                ? <td scope="row">구매완료</td> 
-                                                :<td scope="row"><button class="btn btn-danger" onClick={(e)=>{paymentHandler(bid, e)}}>결제요청</button> </td> 
+                                              ( aucProcGubun === "RE"
+                                                ? <td scope="row">평가완료 </td> 
+                                                :
+                                                  (aucProcGubun === "E"
+                                                    ? <td>
+                                                        구매완료
+                                                        <select onChange={handleSelect} value={Selected}>
+                                                          {selectList.map((item) => (
+                                                            <option value={item} key={item}>
+                                                              {item}
+                                                            </option>
+                                                          ))}
+                                                        </select>                                                
+                                                        <button class="btn btn-outline-primary" onClick={(e)=>{ratingHandler(bid, e)}}>평가하기</button> 
+                                                     </td>
+                                                    : <td scope="row"><button class="btn btn-danger" onClick={(e)=>{paymentHandler(bid, e)}}>결제요청</button> </td> 
+                                                  )
                                               )
                                               
                                           )                                        
@@ -502,6 +583,7 @@ const Detail = () =>{
                                     )                                    
                                   : null
                                 }
+                                
 
                             </tr> ))}              
                         </tbody>                          
@@ -527,7 +609,7 @@ const Detail = () =>{
                       ? <button class="btn btn-danger" onClick={completeHandler}>판매종료</button>   
                       : null
                     }      
-                    </div>                   
+                    </div>   
                     
           </form>          
         </div>
