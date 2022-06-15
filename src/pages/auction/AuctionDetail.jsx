@@ -147,8 +147,9 @@ const Detail = () =>{
         .post(beauction_url, body)
         .then(function (res) {
           //console.log("beAuction insert res=> "+JSON.stringify(res.data, null, 2));
-          window.location.reload();
-          //document.location.href = '/auction/auctions' ;
+          //window.location.reload();
+          alert("낙찰되었습니다. 경매목록으로 이동합니다.");
+          document.location.href = '/auction/auctions' ;
         })
         .catch(function (error) {
           // handle error
@@ -391,7 +392,6 @@ const Detail = () =>{
               ratingScore: Selected,
           };
           console.log("평가 요청 body==>" + JSON.stringify(body, null, 2));
-          alert("123123123");
           axios
               .post("http://localhost:8081/auction/userpush", body)
               .then(function (res) {
@@ -413,7 +413,7 @@ const Detail = () =>{
               seller: aucSellerId, //임시
             };
           console.log("평가요청 insert res=> "+JSON.stringify(body2, null, 2));
-          alert("55556666");
+          
           axios
               .post("http://localhost:8081/auction/aucpayments", body2)
               .then(function (res) {
@@ -507,11 +507,11 @@ const Detail = () =>{
             </div>
             <div class="form-group">
             <label class="col-sm-3 control-label" >경매시작일</label>
-            <div class="col-sm-5"><input type="number" class="form-control" disabled="true"  placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input></div>
+            <div class="col-sm-5"><input type="number" class="form-control" disabled="true"  placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input></div>            
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" >경매종료일</label>
-            <div class="col-sm-5"><input type="number" class="form-control" disabled="true"  placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input></div>
+            <div class="col-sm-5"><input type="number" class="form-control" disabled="true"  placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input></div>            
           </div>
           <p></p>
           <div>
@@ -561,7 +561,7 @@ const Detail = () =>{
                                                 :
                                                   (aucProcGubun === "E"
                                                     ? <td>
-                                                        구매완료
+                                                        구매완료 &nbsp; &nbsp; &nbsp;
                                                         <select onChange={handleSelect} value={Selected}>
                                                           {selectList.map((item) => (
                                                             <option value={item} key={item}>

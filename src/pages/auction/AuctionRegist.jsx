@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { Route, Link } from 'react-router-dom';
 import axios from 'axios';
 import "./bootstrap/bootstrap.min.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Regist = () =>{ 
 
@@ -10,8 +12,13 @@ const Regist = () =>{
     const [aucTitle, SetTitle] = useState("");
     const [aucContent, SetContent] = useState("");
     const [aucStartAmount, SetBidAmount] = useState("");
-    const [aucStartDate, SetAucStartDate] = useState("");
-    const [aucEndDate, SetAucEndDate] = useState("");
+    //const [aucStartDate, SetAucStartDate] = useState("");
+    //const [aucEndDate, SetAucEndDate] = useState("");
+    const [aucStartDate, SetAucStartDate] = useState(new Date());
+    const [aucEndDate, SetAucEndDate] = useState(new Date());
+
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -23,8 +30,8 @@ const Regist = () =>{
         if(aucTitle==null || aucTitle=='') {alert("제목을 입력해주세요"); return false;}
         if(aucContent==null || aucContent=='') {alert("내용을 입력해주세요"); return false;}
         if(aucStartAmount==null || aucStartAmount=='') {alert("경매시작금액을 입력해주세요"); return false;}
-        if(aucStartDate==null || aucStartDate=='') {alert("경매시작일을 입력해주세요"); return false;}
-        if(aucEndDate==null || aucEndDate=='') {alert("경매종료일을 입력해주세요"); return false;}
+        //if(aucStartDate==null || aucStartDate=='') {alert("경매시작일을 입력해주세요"); return false;}
+        //if(aucEndDate==null || aucEndDate=='') {alert("경매종료일을 입력해주세요"); return false;}
 
           var today = new Date();
           var year = today.getFullYear();
@@ -35,6 +42,17 @@ const Regist = () =>{
           var sec = today.getSeconds();
   
           var dateCrt = year + "" + month  + "" + day + "" + hour + "" + min + "" + sec ;
+
+          var startYear = aucStartDate.getFullYear();
+          var startMonth = ('0' + (aucStartDate.getMonth() + 1)).slice(-2);
+          var startDay = ('0' + aucStartDate.getDate()).slice(-2);
+          var startDate = startYear + "" + startMonth  + "" + startDay ;
+
+          var endYear = aucEndDate.getFullYear();
+          var endMonth = ('0' + (aucEndDate.getMonth() + 1)).slice(-2);
+          var endDay = ('0' + aucEndDate.getDate()).slice(-2);
+          var endDate = endYear + "" + endMonth  + "" + endDay ;
+
     
         let body = {
             sellerId: aucSellerId,
@@ -42,12 +60,14 @@ const Regist = () =>{
             title: aucTitle,
             content: aucContent,
             aucStartAmount: aucStartAmount,
-            aucStartDate: aucStartDate,
-            aucEndDate: aucEndDate,
+            aucStartDate: startDate,
+            aucEndDate: endDate,
             aucCrtDate: dateCrt,   //CQRS
             aucStatus: "Auction Insert",   //CQRS
         };
-    
+        
+        console.log("regist  insert => "+JSON.stringify(body, null, 2));
+
         axios
           .post("http://localhost:8081/auction/auctions", body)
           //.post("http://192.168.72.102:8081/auction/auctions", body)
@@ -101,16 +121,6 @@ const Regist = () =>{
         e.preventDefault();
         SetBidAmount(e.target.value);
       };
-
-      const aucStartDateHandler = (e) => {
-        e.preventDefault();
-        SetAucStartDate(e.target.value);
-      };
-
-      const aucEndDateHandler = (e) => {
-        e.preventDefault();
-        SetAucEndDate(e.target.value);
-      };
     
 
     return ( 
@@ -145,12 +155,30 @@ const Regist = () =>{
               <p></p>
               <div class="form-group">
                 <label class="col-sm-3 control-label" >경매 시작일</label>
-                <div class="col-sm-5"><input type="number" class="form-control" placeholder="ex) 20220505" value={aucStartDate} onChange={aucStartDateHandler}  aria-label="aucStartDate" aria-describedby="basic-addon1"></input></div>
+                <div class="col-sm-5"></div>
+                <DatePicker
+                  dateFormat="yyyyMMdd"
+                  selected={aucStartDate}
+                  minDate={new Date()}
+                  onChange={date => SetAucStartDate(date)}
+                  selectstart
+                  aucStartDate={aucStartDate}
+                  aucEndDate={aucEndDate}
+                />
               </div>
               <p></p>
               <div class="form-group">
                 <label class="col-sm-3 control-label" >경매 종료일</label>
-                <div class="col-sm-5"><input type="number" class="form-control" placeholder="ex) 20220508" value={aucEndDate} onChange={aucEndDateHandler}  aria-label="aucEndDate" aria-describedby="basic-addon1"></input></div>
+                <div class="col-sm-5"></div>
+                <DatePicker
+                  dateFormat="yyyyMMdd"
+                  selected={aucEndDate}
+                  onChange={date => SetAucEndDate(date)}
+                  selectEnd
+                  aucEndDate={aucEndDate}
+                  aucStartDate={aucStartDate}   
+                  minDate={aucStartDate}           
+                />
               </div>
               <p></p>
               <div><button  class="btn btn-outline-primary" onClick={submitHandler}>등록</button>   ||   <button  class="btn btn-outline-primary"><Link to={'/auction/auctions'}>경매목록</Link></button>   </div>            
