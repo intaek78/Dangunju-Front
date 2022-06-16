@@ -7,7 +7,7 @@ const Detail = () =>{
   const location = useLocation();
   const navigate = useNavigate();
   
-  console.log("==>>"+location.state.aucId2);
+  //console.log("aucId2==>>"+location.state.aucId2);
 
   const fin_aucId = location.state.aucId2;
   const fin_beAuctionedYnAuc = location.state.beAuctionedYnAuc; 
@@ -126,10 +126,7 @@ const Detail = () =>{
           return false;
         }
         
-        if(body.bidAmount == '') {
-          alert("입찰금액을 입력하세요");
-          return false;
-        }else if(body.bidAmount <= aucBidAmount){
+        if(body.bidAmount <= aucBidAmount){
           alert("입찰금액은 경매시작금액보다 커야합니다.");
           return false;
         }
@@ -159,8 +156,6 @@ const Detail = () =>{
           aucId: fin_aucId,
           bidId: bid.bidId2,
         };
-
-        alert(bid.bidMemId);
 
         const beauction_url = "http://localhost:8081/auction/beauctions"; 
         
@@ -199,6 +194,7 @@ const Detail = () =>{
               seller: "05625", //임시
           };
           console.log("결제 요청 body==>" + JSON.stringify(body, null, 2));
+          
 
           console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
           axios
@@ -405,9 +401,9 @@ const Detail = () =>{
       //평가요청
       const ratingHandler = (bid, e) => {
 
-        if(Selected===''){
+        if(Selected==''){
           alert("점수를 선택해주세요");
-          return;
+          return false;
         }
 
         if (window.confirm("평가요청 하시겠습니까? " ))  {
@@ -506,12 +502,12 @@ const Detail = () =>{
         setSelected(e.target.value);
       };
     
-
+      
     return ( 
         <div class="container" > 
-          <form >
+          <form>
           <p></p>
-          <h4 class="card-title">경매상세 ({fin_status})</h4>
+          <h4 class="card-title">경매상세 ({sessionStorage.getItem('userId')}  {fin_status})</h4>
             <div class="form-group">
                 <label class="col-sm-3 control-label" >Seller ID</label>
                 <div class="col-sm-5"><input type="number" id="sellerId" disabled="true" class="form-control" placeholder="ex) 1111" value={aucSellerId} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input></div>
@@ -551,7 +547,7 @@ const Detail = () =>{
             <button class="btn btn-outline-primary" type='button' onClick={onLogout}>Logout</button>
           </div>        
            </form >
-              <form onSubmit={submitHandler}>
+              <form >
                 <h4  class="card-title" align="center" >입찰목록</h4> 
                     <table  class="table table-hover">
                         <thead align="center" class="table-active">
