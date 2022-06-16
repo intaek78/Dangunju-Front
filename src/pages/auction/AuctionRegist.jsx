@@ -25,7 +25,7 @@ const Regist = () =>{
         // state에 저장한 값을 가져옵니다.
         //console.log(Password);
 
-        if(aucSellerId==null || aucSellerId=='') {alert("Seller ID를 입력해주세요"); return false;}
+        //if(aucSellerId==null || aucSellerId=='') {alert("Seller ID를 입력해주세요"); return false;}
         if(aucPostId==null || aucPostId=='') {alert("게시글번호를 입력해주세요"); return false;}
         if(aucTitle==null || aucTitle=='') {alert("제목을 입력해주세요"); return false;}
         if(aucContent==null || aucContent=='') {alert("내용을 입력해주세요"); return false;}
@@ -55,7 +55,7 @@ const Regist = () =>{
 
     
         let body = {
-            sellerId: aucSellerId,
+            sellerId: sessionStorage.getItem('userId'),
             aucPostId: aucPostId,
             title: aucTitle,
             content: aucContent,
@@ -130,7 +130,7 @@ const Regist = () =>{
               <h4 class="card-title">경매등록</h4>          
               <div class="form-group">
                 <label class="col-sm-3 control-label" >Seller ID</label>
-                <div class="col-sm-5"><input type="number" id="sellerId" class="form-control" placeholder="ex) 1111" value={aucSellerId} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input></div>
+                <div class="col-sm-5"><input type="number" id="sellerId" disabled="true" class="form-control" placeholder="ex) 1111" value={sessionStorage.getItem('userId')} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input></div>
               </div>
               <p></p>
               <div class="form-group">

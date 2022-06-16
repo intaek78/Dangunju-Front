@@ -6,6 +6,7 @@ import "./index.css";
 import AuctionList from './pages/auction/AuctionList';
 import Regist from './pages/auction/AuctionRegist';
 import Detail from './pages/auction/AuctionDetail';
+import Login from './pages/auction/Login';
 
 /*
 예시 입니다. 이런식으로 가져다와서 쓰시죠.
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/auction/auctions" element={<AuctionList />}></Route>
         <Route path="/auction/regists" element={<Regist />}></Route>
         <Route path="/auction/details" element={<Detail />}></Route>
+        <Route path="/auction/logins" element={<Login />}></Route>
 
         {/* chatting */}
         {/* <Route path="/chatting" element={<Chatting />} /> */}

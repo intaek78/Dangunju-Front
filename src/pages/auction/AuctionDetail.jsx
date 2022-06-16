@@ -44,6 +44,13 @@ const Detail = () =>{
     const [ratingScore, SetRatingScore] = useState("");
     const [Selected, setSelected] = useState("");
 
+    const onLogout = () => {
+    	// sessionStorage 에 user_id 로 저장되어있는 아이템을 삭제한다.
+        sessionStorage.removeItem('userId')
+        //document.location.href = '/'
+        document.location.href = '/auction/logins' ;
+    }
+
 
 
     useEffect(() => {
@@ -79,6 +86,11 @@ const Detail = () =>{
       const AuctionCancelled = (e) => {
         e.preventDefault();
 
+        if(sessionStorage.getItem('userId') != aucSellerId) {
+          alert("판매자만 취소가 가능합니다.");
+          return false;
+        }
+
           if (window.confirm("정말 판매내역을 삭제하시겠습니까?")) {
             axios.delete(fin_url)
               .then(function (res) {
@@ -97,7 +109,7 @@ const Detail = () =>{
         let body = {
             aucPostId: aucPostId,
             bidAmount: bidAmount,
-            bidMemId: bidMem,
+            bidMemId: sessionStorage.getItem('userId'),
             aucId: fin_aucId,
         };
         console.log("bid body bidAmount==>" + body.bidAmount);
@@ -113,9 +125,16 @@ const Detail = () =>{
           alert("경매가 종료되었습니다.");
           return false;
         }
-        //document.write(year + '/' + month + '/' + date)
+        
+        if(body.bidAmount == '') {
+          alert("입찰금액을 입력하세요");
+          return false;
+        }else if(body.bidAmount <= aucBidAmount){
+          alert("입찰금액은 경매시작금액보다 커야합니다.");
+          return false;
+        }
 
-        if(bidAmount==null || bidAmount=='') {return false;}
+        //document.write(year + '/' + month + '/' + date)
 
         const bid_url = "http://localhost:8081/auction/bids";     
         axios
@@ -132,16 +151,23 @@ const Detail = () =>{
       };
 
       //낙찰-낙찰장부 입력
-      const beAuctionedHandler = (bidId2, e) => {
+      const beAuctionedHandler = (bid, e) => {
         e.preventDefault();
 
         let body = {
           aucPostId: aucPostId,
           aucId: fin_aucId,
-          bidId: bidId2,
+          bidId: bid.bidId2,
         };
 
-        const beauction_url = "http://localhost:8081/auction/beauctions";        
+        alert(bid.bidMemId);
+
+        const beauction_url = "http://localhost:8081/auction/beauctions"; 
+        
+        if(sessionStorage.getItem('userId') != aucSellerId) {
+          alert("판매자만 낙찰이 가능합니다.");
+          return false;
+        }
     
         axios
         .post(beauction_url, body)
@@ -413,7 +439,7 @@ const Detail = () =>{
               seller: aucSellerId, //임시
             };
           console.log("평가요청 insert res=> "+JSON.stringify(body2, null, 2));
-          
+
           axios
               .post("http://localhost:8081/auction/aucpayments", body2)
               .then(function (res) {
@@ -487,8 +513,9 @@ const Detail = () =>{
           <p></p>
           <h4 class="card-title">경매상세 ({fin_status})</h4>
             <div class="form-group">
-              <div class="col-sm-5"><input type="hidden" id="sellerid" class="form-control" disabled="true" placeholder="ex) 1111" value={aucSellerId} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input></div>
-            </div>
+                <label class="col-sm-3 control-label" >Seller ID</label>
+                <div class="col-sm-5"><input type="number" id="sellerId" disabled="true" class="form-control" placeholder="ex) 1111" value={aucSellerId} onChange={sellerIdHandler}  aria-label="Seller ID" aria-describedby="basic-addon1"></input></div>
+              </div>
             <div class="form-group">
               <label class="col-sm-3 control-label" >글번호</label>
               <div class="col-sm-5"><input type="number" class="form-control" disabled="true" placeholder="ex) 1111" value={aucPostId} onChange={postIdHandler}  aria-label="postID" aria-describedby="basic-addon1"></input></div>
@@ -521,6 +548,7 @@ const Detail = () =>{
               : <button class="btn btn-outline-primary" onClick={AuctionCancelled}>판매취소</button>
             }
             <button class="btn btn-outline-primary"><Link to={'/auction/auctions'}>경매목록</Link></button>
+            <button class="btn btn-outline-primary" type='button' onClick={onLogout}>Logout</button>
           </div>        
            </form >
               <form onSubmit={submitHandler}>
@@ -577,7 +605,7 @@ const Detail = () =>{
                                               
                                           )                                        
                                         : ( bid.beAuctionedYN === fin_beAuctionedYnAuc
-                                            ?<td scope="row"><button class="btn btn-danger" onClick={(e)=>{beAuctionedHandler(bid.bidId2, e)}}>낙찰</button></td>                                        
+                                            ?<td scope="row"><button class="btn btn-danger" onClick={(e)=>{beAuctionedHandler(bid, e)}}>낙찰</button></td>                                        
                                             :<td scope="row"></td>
                                         )
                                     )                                    
@@ -592,7 +620,7 @@ const Detail = () =>{
                     {
                       fin_beAuctionedYnAuc === "Y"
                       ?null
-                      : <input type="number" name="bid_mem" value={bidMem} onChange={bidMemHandler} placeholder="ex) 05625" />
+                      : <input type="hidden" name="bid_mem" value={sessionStorage.getItem('userId')} onChange={bidMemHandler} placeholder="ex) 05625" />
                     }
                     {
                       fin_beAuctionedYnAuc === "Y"
