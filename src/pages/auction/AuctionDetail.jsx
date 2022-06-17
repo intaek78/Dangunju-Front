@@ -180,9 +180,15 @@ const Detail = () =>{
 
       //결제요청
       const paymentHandler = (bid, e) => {
+        e.preventDefault();
+
+        if(sessionStorage.getItem('userId') != bid.bidMemId) {
+          alert("구매자만 결제요청 가능합니다.");
+          return false;
+        }
 
         if (window.confirm("결제요청 하시겠습니까?\n 낙찰금액(원) : " + bid.bidAmount ))  {
-          e.preventDefault();
+         
           let body = {
               buyer: bid.bidMemId, //임시
               amount: bid.bidAmount,
@@ -250,9 +256,15 @@ const Detail = () =>{
 
       //결제취소
       const payCancelHandler = (bid, e) => {
+        e.preventDefault();
+
+        if(sessionStorage.getItem('userId') != bid.bidMemId) {
+          alert("구매자만 결제취소 가능합니다.");
+          return false;
+        }
 
         if (window.confirm("결제취소 하시겠습니까?"))  {
-          e.preventDefault();
+          
           let body = {
               buyer: bid.bidMemId, //임시
               amount: bid.bidAmount,
@@ -314,9 +326,10 @@ const Detail = () =>{
 
       //판매종료
       const completeHandler = (e) => {
+        e.preventDefault();
 
         if (window.confirm("판매종료 하시겠습니까?" ))  {
-          e.preventDefault();
+          
           let body = {
               postGubun: "AUC",
               paymentGubun: "END",
@@ -400,17 +413,18 @@ const Detail = () =>{
 
       //평가요청
       const ratingHandler = (bid, e) => {
+        e.preventDefault();
 
-        if(Selected==''){
+        if(Selected === ''){
           alert("점수를 선택해주세요");
-          return false;
+          return;
         }
 
         if (window.confirm("평가요청 하시겠습니까? " ))  {
-          e.preventDefault();
+
           let body = {
               userId: bid.bidMemId, //임시
-              postGubun: "AUCTION",
+              //postGubun: "AUCTION",
               ratingScore: Selected,
           };
           console.log("평가 요청 body==>" + JSON.stringify(body, null, 2));
@@ -450,7 +464,6 @@ const Detail = () =>{
             document.location.href = '/auction/auctions' ;
         }
       };
-
 
 
       const sellerIdHandler = (e) => {
@@ -633,7 +646,7 @@ const Detail = () =>{
                       ? <button class="btn btn-danger" onClick={completeHandler}>판매종료</button>   
                       : null
                     }      
-                    </div>   
+                    </div> 
                     
           </form>          
         </div>
