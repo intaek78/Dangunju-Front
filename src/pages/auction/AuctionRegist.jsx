@@ -79,9 +79,7 @@ const Regist = () =>{
             // handle error
             console.log(error);
           })
-
-          
-        /*임시삭제
+        
         axios
           .post("http://localhost:8081/auction/pushhistory", body)
           .then(function (res) {
@@ -91,7 +89,7 @@ const Regist = () =>{
             // handle error
             console.log(error);
           })
-          */
+        
 
          
 
