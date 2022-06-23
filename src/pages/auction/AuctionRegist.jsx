@@ -89,11 +89,36 @@ const Regist = () =>{
             // handle error
             console.log(error);
           })
-        
-
-         
 
       };
+
+
+
+
+
+      //Hystrix Test
+      const submitHystrixHandler = (e) => {
+        e.preventDefault();
+    
+        let body = {
+            sellerId: sessionStorage.getItem('userId'),
+            postTitle: "Hystrix44",
+        };
+        
+        console.log("Hystrix  insert => "+JSON.stringify(body, null, 2));
+        
+        axios
+          .post("http://localhost:8081/auction/pushHystrix", body)
+          .then(function (res) {
+            console.log("Hystrix res=> "+JSON.stringify(res.data, null, 2));
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          })
+
+      };
+
       
       const sellerIdHandler = (e) => {
         e.preventDefault();
@@ -179,8 +204,8 @@ const Regist = () =>{
                 />
               </div>
               <p></p>
-              <div><button  class="btn btn-outline-primary" onClick={submitHandler}>등록</button>   ||   <button  class="btn btn-outline-primary"><Link to={'/auction/auctions'}>경매목록</Link></button>   </div>            
-             
+              <div><button  class="btn btn-outline-primary" onClick={submitHandler}>등록</button>   ||   <button  class="btn btn-outline-primary"><Link to={'/auction/auctions'}>경매목록</Link></button>    ||    <button  class="btn btn-outline-primary" onClick={submitHystrixHandler}>Hystrix Test</button> </div>            
+
              </form>
         </div>
         
