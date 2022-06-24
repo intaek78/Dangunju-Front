@@ -69,8 +69,8 @@ const Regist = () =>{
         console.log("regist  insert => "+JSON.stringify(body, null, 2));
 
         axios
-          .post("http://localhost:8081/auction/auctions", body)
-          //.post("http://192.168.72.102:8081/auction/auctions", body)
+          //.post("http://localhost:8081/auction/auctions", body)
+          .post("http://192.168.72.102:8081/auction/auctions", body)
           .then(function (res) {
             alert("게시글 "+ aucPostId +"번이 등록되었습니다. 경매목록 화면으로 이동합니다.");
             document.location.href = '/auction/auctions' ;
@@ -80,7 +80,7 @@ const Regist = () =>{
             console.log(error);
           })
         
-        axios
+        /*axios
           .post("http://localhost:8081/auction/pushhistory", body)
           .then(function (res) {
             console.log("내활동(CQRS) req=> "+JSON.stringify(res.data, null, 2));
@@ -88,7 +88,7 @@ const Regist = () =>{
           .catch(function (error) {
             // handle error
             console.log(error);
-          })
+          })*/
 
       };
 
@@ -101,14 +101,15 @@ const Regist = () =>{
         e.preventDefault();
     
         let body = {
-            sellerId: sessionStorage.getItem('userId'),
+            //sellerId: sessionStorage.getItem('userId'),
             postTitle: "Hystrix44",
         };
         
         console.log("Hystrix  insert => "+JSON.stringify(body, null, 2));
         
         axios
-          .post("http://localhost:8081/auction/pushHystrix", body)
+          //.post("http://localhost:8081/auction/pushHystrix", body)
+          .post("http://192.168.72.102:8081/auction/pushHystrix", body)
           .then(function (res) {
             console.log("Hystrix res=> "+JSON.stringify(res.data, null, 2));
           })
