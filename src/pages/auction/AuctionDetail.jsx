@@ -2,6 +2,7 @@ import React, {useState, useEffect, useHistory } from 'react';
 import { Route, Link, useLocation, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import "./bootstrap/bootstrap.min.css";
+import { Button } from "react-bootstrap";
 
 const Detail = () =>{ 
   const location = useLocation();
@@ -9,19 +10,31 @@ const Detail = () =>{
   
   //console.log("aucId2==>>"+location.state.aucId2);
 
+  //let baseAucUrl = "http://localhost:8081/";
+  //let baseAucUrl = "http://192.168.72.102:8081/";
+  //let baseAucUrl = "http://twopro-auction.hrd-edu.cloudzcp.com/";
+  let baseAucUrl = "http://auctionm2.azurewebsites.net/";
+    
+
   const fin_aucId = location.state.aucId2;
   const fin_beAuctionedYnAuc = location.state.beAuctionedYnAuc; 
   const fin_paymentReqYN = location.state.paymentReqYN;  
   const fin_status = location.state.status;  
   const tmpVar = "Y";
-  //const fin_url = "http://localhost:8081/auction/auctions/" + fin_aucId;
-  const fin_url = "http://192.168.72.102:8081/auction/auctions/" + fin_aucId;  
+  const fin_url = baseAucUrl + "auction/auctions/" + fin_aucId;
+  //const fin_url = "http://192.168.72.102:8081/auction/auctions/" + fin_aucId;   
+  //const fin_url = "twopro-auction.hrd-edu.cloudzcp.com/auction/auctions/" + fin_aucId;     
   console.log("fin_url   "+fin_url);
 
   const selectList = ["선택", 5, 4, 3, 2, 1];
-  
-  
 
+  let baseUrl = "http://twopro-chat.hrd-edu.cloudzcp.com/"; //채팅
+  let roomid; //채팅
+  let number = Math.floor(Math.random() * 3) + 1;
+  sessionStorage.setItem("id", number);
+  sessionStorage.setItem("name", "게스트");
+  let hostId = 3;
+  let gusetId = sessionStorage.getItem("id");
 
     //console.log(props);
     console.log(location);
@@ -76,7 +89,9 @@ const Detail = () =>{
     useEffect(() => {
       axios
           //.get("http://localhost:8081/auction/bids")
-          .get("http://192.168.72.102:8081/auction/bids")
+          //.get("http://192.168.72.102:8081/auction/bids")
+          //.get("twopro-auction.hrd-edu.cloudzcp.com/auction/bids")
+          .get(baseAucUrl + "auction/bids")        
           .then((response) => {
               setBids(response.data);
               //console.log("===>"+auctionData);
@@ -136,7 +151,9 @@ const Detail = () =>{
         //document.write(year + '/' + month + '/' + date)
 
         //const bid_url = "http://localhost:8081/auction/bids"; 
-        const bid_url = "http://192.168.72.102:8081/auction/bids"; 
+        //const bid_url = "http://192.168.72.102:8081/auction/bids"; 
+        //const bid_url = "twopro-auction.hrd-edu.cloudzcp.com/auction/bids"; 
+        const bid_url = baseAucUrl + "auction/bids"; 
 
         axios
           .post(bid_url, body)
@@ -162,7 +179,9 @@ const Detail = () =>{
         };
 
         //const beauction_url = "http://localhost:8081/auction/beauctions"; 
-        const beauction_url = "http://192.168.72.102:8081/auction/beauctions"; 
+        //const beauction_url = "http://192.168.72.102:8081/auction/beauctions"; 
+        //const beauction_url = "twopro-auction.hrd-edu.cloudzcp.com/auction/beauctions"; 
+        const beauction_url = baseAucUrl + "auction/beauctions"; 
         
         if(sessionStorage.getItem('userId') != aucSellerId) {
           alert("판매자만 낙찰이 가능합니다.");
@@ -210,7 +229,9 @@ const Detail = () =>{
           console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
           axios
               //.post("http://localhost:8081/auction/push", body)
-              .post("http://192.168.72.102:8081/auction/push", body)
+              //.post("http://192.168.72.102:8081/auction/push", body)
+              //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/push", body)
+              .post(baseAucUrl + "auction/push", body)
               .then(function (res) {
                 console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
               })
@@ -245,7 +266,9 @@ const Detail = () =>{
             console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
             axios
                 //.post("http://localhost:8081/auction/aucpayments", body)
-                .post("http://192.168.72.102:8081/auction/aucpayments", body)
+                //.post("http://192.168.72.102:8081/auction/aucpayments", body)
+                //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/aucpayments", body)
+                .post(baseAucUrl + "auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
                   alert("결과 : "+res.data.state.status);
@@ -285,7 +308,9 @@ const Detail = () =>{
           console.log("결제 취소 body==>" + JSON.stringify(body, null, 2));
           axios
               //.post("http://localhost:8081/auction/push", body)
-              .post("http://192.168.72.102:8081/auction/push", body)
+              //.post("http://192.168.72.102:8081/auction/push", body)
+              //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/push", body)
+              .post(baseAucUrl + "auction/push", body)
               .then(function (res) {
                 console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
               })
@@ -319,7 +344,9 @@ const Detail = () =>{
             console.log("beAuction insert res=> "+JSON.stringify(body, null, 2));
             axios
                 //.post("http://localhost:8081/auction/aucpayments", body)
-                .post("http://192.168.72.102:8081/auction/aucpayments", body)
+                //.post("http://192.168.72.102:8081/auction/aucpayments", body)
+                //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/aucpayments", body)
+                .post(baseAucUrl + "auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제취소 insert req=> "+JSON.stringify(res.data, null, 2));
                 })
@@ -349,7 +376,9 @@ const Detail = () =>{
           };
           console.log("판매종료 body==>" + JSON.stringify(body, null, 2));
           //const payment_url = "http://localhost:8081/pament/requestPayment";     
-          const payment_url = "http://192.168.72.102:8081/pament/requestPayment";     
+          //const payment_url = "http://192.168.72.102:8081/pament/requestPayment";    
+          //const payment_url = "twopro-payment.hrd-edu.cloudzcp.com/pament/requestPayment";    
+          //const payment_url = baseAucUrl + "pament/requestPayment";       
           /*
           axios
             .post(payment_url, body)
@@ -375,7 +404,9 @@ const Detail = () =>{
             */
             axios
                 //.post("http://localhost:8081/auction/aucpayments", body)
-                .post("http://192.168.72.102:8081/auction/aucpayments", body)
+                //.post("http://192.168.72.102:8081/auction/aucpayments", body)
+                //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/aucpayments", body)
+                .post(baseAucUrl + "auction/aucpayments", body)
                 .then(function (res) {
                   console.log("결제장부 insert req=> "+JSON.stringify(res.data, null, 2));
                 })
@@ -408,7 +439,9 @@ const Detail = () =>{
 
             axios
                 //.post("http://localhost:8081/auction/pushhistory", body3)
-                .post("http://192.168.72.102:8081/auction/pushhistory", body3)
+                //.post("http://192.168.72.102:8081/auction/pushhistory", body3)
+                //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/pushhistory", body3)
+                .post(baseAucUrl + "auction/pushhistory", body3)
                 .then(function (res) {
                   console.log("판매취소 내활동(CQRS) req=> "+JSON.stringify(res.data, null, 2));
                 })
@@ -442,7 +475,9 @@ const Detail = () =>{
           console.log("평가 요청 body==>" + JSON.stringify(body, null, 2));
           axios
               //.post("http://localhost:8081/auction/userpush", body)
-              .post("http://192.168.72.102:8081/auction/userpush", body)
+              //.post("http://192.168.72.102:8081/auction/userpush", body)
+              //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/userpush", body)
+              .post(baseAucUrl + "auction/userpush", body)
               .then(function (res) {
                 console.log("평가요청 insert req=> "+JSON.stringify(res.data, null, 2));
               })
@@ -465,7 +500,9 @@ const Detail = () =>{
 
           axios
               //.post("http://localhost:8081/auction/aucpayments", body2)
-              .post("http://192.168.72.102:8081/auction/aucpayments", body2)
+              //.post("http://192.168.72.102:8081/auction/aucpayments", body2)
+              //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/aucpayments", body2)
+              .post(baseAucUrl + "auction/aucpayments", body2)
               .then(function (res) {
                 console.log("결제취소 insert req=> "+JSON.stringify(res.data, null, 2));
               })
@@ -478,6 +515,32 @@ const Detail = () =>{
             document.location.href = '/auction/auctions' ;
         }
       };
+
+      //채팅
+      const chattingHandler = (bid, e) => {
+        let body = {
+          postId: 12345,
+          //hostId: sessionStorage.getItem('userId'),
+          //guestId: bid.bidMemId,
+          hostId: hostId,
+          guestId: number,
+        };
+
+        console.log("채팅 insert res=> "+JSON.stringify(body, null, 2));
+    
+        axios
+          .post(baseUrl + "chat/room", body)
+          .then((res) => {
+            roomid = res.data.roomId;
+          })
+          .then(() => {
+            navigate("/chatting/room/" + roomid);
+          });
+      }
+
+      function showChattingList() {
+        navigate("/chatting/list/" + hostId);
+      }
 
 
       const sellerIdHandler = (e) => {
@@ -622,7 +685,18 @@ const Detail = () =>{
                                                         </select>                                                
                                                         <button class="btn btn-outline-primary" onClick={(e)=>{ratingHandler(bid, e)}}>평가하기</button> 
                                                      </td>
-                                                    : <td scope="row"><button class="btn btn-danger" onClick={(e)=>{paymentHandler(bid, e)}}>결제요청</button> </td> 
+                                                    : <td scope="row"><button class="btn btn-danger" onClick={(e)=>{paymentHandler(bid, e)}}>결제요청</button> 
+                                                        {bid.bidMemId != sessionStorage.getItem('userId') ? (
+                                                          <Button variant="outline-primary" onClick={(e)=>{chattingHandler(bid, e)}}>
+                                                          채팅하기
+                                                          </Button>
+                                                        ) : (
+                                                          <Button variant="outline-primary" onClick={showChattingList}>
+                                                          채팅리스트보기
+                                                          </Button>
+                                                        )}
+                                                    
+                                                    </td> 
                                                   )
                                               )
                                               

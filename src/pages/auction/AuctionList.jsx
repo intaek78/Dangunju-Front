@@ -11,51 +11,19 @@ const AuctionList = () =>{
   
     const [auctionData, setAuctions] = useState([]);
     
+    //let baseAucUrl = "http://localhost:8081/";
+    //let baseAucUrl = "http://192.168.72.102:8081/";
+    //let baseAucUrl = "http://twopro-auction.hrd-edu.cloudzcp.com/";
+    let baseAucUrl = "http://auctionm2.azurewebsites.net/";
+    
     useEffect(() => {
         axios
-            //.get("http://localhost:8081/auction/auctions")
-            .get("http://192.168.72.102:8081/auction/auctions")
+            .get(baseAucUrl + "auction/auctions")
             .then((response) => {
                 setAuctions(response.data);
-                //console.log("===>"+auctionData);
-                //console.log("===>"+response._links);
             });
     }, []);
-    
-    /*const onClick2 = async () => { //비동기함수인 async를 사용합니다.
-        try {            
-            const response = await axios.get(
-              "http://localhost:8080/auctions");
-          // await으로 요청의 응답이 온뒤에 response.data를 set해줍니다.
-          
-          console.log("성공");
-          console.log(response.data);
-            setAuctions(response.data);
-          
-        } catch (e) {
-          console.log(e);
-        }
-      };   
-      <button onClick={onClick2}> 경매등록 </button>
-      <Route path='/hello/:key1/:key2' component={Hello} />
 
-      <Link to={`/postView/${item.no}`}>{ item.title }</Link>
-      http://localhost:8080/users?search=lastName:doe,age>25
-      <td><Link to={`/details/${auc.aucId2}`}></Link>  </td>  
-      <td><Link to={{
-                pathname: `/details`,
-                state: {
-                    aucId2 : auc.aucId2,
-                    title: auc.title
-                }
-            }}>
-            { auc.aucPostId }    
-            </Link>  
-        </td>        
-
-        {auctionData._embedded && <textarea rows={7} value={JSON.stringify(auctionData._embedded, null, 2)} readOnly={true} />}
-      */
-      
  
         return ( 
             <div class="container">     

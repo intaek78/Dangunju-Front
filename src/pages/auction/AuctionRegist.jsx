@@ -20,6 +20,14 @@ const Regist = () =>{
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
 
+    //let baseAucUrl = "http://localhost:8081/";
+    //let baseAucUrl = "http://192.168.72.102:8081/";
+    //let baseAucUrl = "http://twopro-auction.hrd-edu.cloudzcp.com/";
+    let baseAucUrl = "http://auctionm2.azurewebsites.net/";
+    
+
+
+
     const submitHandler = (e) => {
         e.preventDefault();
         // state에 저장한 값을 가져옵니다.
@@ -69,8 +77,7 @@ const Regist = () =>{
         console.log("regist  insert => "+JSON.stringify(body, null, 2));
 
         axios
-          //.post("http://localhost:8081/auction/auctions", body)
-          .post("http://192.168.72.102:8081/auction/auctions", body)
+          .post(baseAucUrl + "auction/auctions", body)          
           .then(function (res) {
             alert("게시글 "+ aucPostId +"번이 등록되었습니다. 경매목록 화면으로 이동합니다.");
             document.location.href = '/auction/auctions' ;
@@ -109,7 +116,9 @@ const Regist = () =>{
         
         axios
           //.post("http://localhost:8081/auction/pushHystrix", body)
-          .post("http://192.168.72.102:8081/auction/pushHystrix", body)
+          //.post("http://192.168.72.102:8081/auction/pushHystrix", body)
+          //.post("twopro-auction.hrd-edu.cloudzcp.com/auction/pushHystrix", body)
+          .post(baseAucUrl + "auction/pushHystrix", body)      
           .then(function (res) {
             console.log("Hystrix res=> "+JSON.stringify(res.data, null, 2));
           })
